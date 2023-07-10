@@ -1,5 +1,3 @@
-import Phaser from 'phaser';
-
 class Level extends Phaser.Scene {
   debug;
   preload() {
