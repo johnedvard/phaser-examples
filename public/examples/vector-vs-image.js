@@ -77,3 +77,4 @@ export function createExample() {
 
   game.scene.add('Level', Level, true);
 }
+window.createExample = createExample;
