@@ -77,3 +77,4 @@ const game = new Phaser.Game({
 });
 
 game.scene.add('Level', Level, true);
+console.log('game loaded');
