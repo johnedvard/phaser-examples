@@ -58,10 +58,7 @@ class Level extends Phaser.Scene {
   }
 }
 
-/** used if embedded directly on a page */
-const gameParentEl = document.getElementById('phaser-example-parent');
-const gameCanvasEl = document.getElementById('phaser-example');
-const game = new Phaser.Game({
+const gameConfig = {
   type: Phaser.WEBGL,
   width: 900,
   height: 400,
@@ -73,10 +70,13 @@ const game = new Phaser.Game({
     baseURL: 'https://labs.phaser.io',
     crossOrigin: 'anonymous',
   },
-});
-
-if (gameCanvasEl) game.canvas = gameCanvasEl;
-if (gameParentEl) game.parent = gameParentEl;
+};
+/** used if embedded directly on a page */
+const gameParentEl = document.getElementById('phaser-example-parent');
+const gameCanvasEl = document.getElementById('phaser-example');
+if (gameCanvasEl) gameConfig.canvas = gameCanvasEl;
+if (gameParentEl) gameConfig.parent = gameParentEl;
+const game = new Phaser.Game(gameConfig);
 
 game.scene.add('Level', Level, true);
 console.log('game loaded');
