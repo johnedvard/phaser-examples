@@ -63,10 +63,9 @@ const game = new Phaser.Game({
   type: Phaser.WEBGL,
   width: 900,
   height: 400,
-  backgroundColor: '#2ed34a',
+  backgroundColor: '#191919',
   scale: {
     mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   loader: {
     baseURL: 'https://labs.phaser.io',
