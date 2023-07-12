@@ -83,10 +83,4 @@ export const initGame = () => {
   game.scene.add('Level', Level, true);
   console.log('game loaded');
 };
-
-export const destroyGame = () => {
-  if (!game) return;
-
-  game.destroy(true);
-  game = null;
-};
+initGame();
