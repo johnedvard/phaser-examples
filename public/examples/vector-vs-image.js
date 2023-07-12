@@ -57,26 +57,36 @@ class Level extends Phaser.Scene {
     return graphics;
   }
 }
+let game;
 
-const gameConfig = {
-  type: Phaser.WEBGL,
-  width: 900,
-  height: 400,
-  backgroundColor: '#191919',
-  scale: {
-    mode: Phaser.Scale.FIT,
-  },
-  loader: {
-    baseURL: 'https://labs.phaser.io',
-    crossOrigin: 'anonymous',
-  },
+export const initGame = () => {
+  if (game) return;
+  const gameConfig = {
+    type: Phaser.WEBGL,
+    width: 900,
+    height: 400,
+    backgroundColor: '#191919',
+    scale: {
+      mode: Phaser.Scale.FIT,
+    },
+    loader: {
+      baseURL: 'https://labs.phaser.io',
+      crossOrigin: 'anonymous',
+    },
+  };
+  /** used if embedded directly on a page */
+  const gameParentEl = document.getElementById('phaser-example-parent');
+  const gameCanvasEl = document.getElementById('phaser-example');
+  if (gameCanvasEl) gameConfig.canvas = gameCanvasEl;
+  if (gameParentEl) gameConfig.parent = gameParentEl;
+  game = new Phaser.Game(gameConfig);
+  game.scene.add('Level', Level, true);
+  console.log('game loaded');
 };
-/** used if embedded directly on a page */
-const gameParentEl = document.getElementById('phaser-example-parent');
-const gameCanvasEl = document.getElementById('phaser-example');
-if (gameCanvasEl) gameConfig.canvas = gameCanvasEl;
-if (gameParentEl) gameConfig.parent = gameParentEl;
-const game = new Phaser.Game(gameConfig);
 
-game.scene.add('Level', Level, true);
-console.log('game loaded');
+export const destroyGame = () => {
+  if (!game) return;
+
+  game.destroy(true);
+  game = null;
+};
