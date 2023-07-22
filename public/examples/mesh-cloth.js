@@ -145,7 +145,7 @@ export const initGame = () => {
     physics: {
       default: "matter",
       matter: {
-        debug: true,
+        debug: false,
       },
     },
   };
