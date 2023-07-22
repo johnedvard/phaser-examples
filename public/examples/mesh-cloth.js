@@ -37,38 +37,9 @@ class Level extends Phaser.Scene {
     this.load.image("example", "assets/sprites/phaser3-logo.png");
   }
 
-  create() {
+  createMesh() {
     const mesh = this.add.mesh(300, 300, "example");
     this.mesh = mesh;
-
-    this.matter.world.setBounds();
-    this.matter.add.mouseSpring(); // Try to drag the cloth with the mouse
-
-    const group = this.matter.world.nextGroup(true);
-
-    const particleOptions = {
-      friction: 0.00001,
-      collisionFilter: { group: group },
-      render: { visible: false },
-    };
-
-    const constraintOptions = { stiffness: 0.06 };
-    this.cloth = this.matter.add.softBody(
-      700 / 2 - (60 * 4) / 2,
-      400 / 2 - 25 * 4,
-      6,
-      3,
-      65,
-      35,
-      false,
-      8,
-      particleOptions,
-      constraintOptions
-    );
-    // Prevent the cloth from collapsing
-    this.cloth.bodies[0].isStatic = true;
-    this.cloth.bodies[5].isStatic = true;
-
     Phaser.Geom.Mesh.GenerateGridVerts({
       width: 412, // width of image
       height: 93, // height of image
@@ -82,8 +53,44 @@ class Level extends Phaser.Scene {
 
     this.debug = this.add.graphics(); // create graphics that we can use for bugging
     mesh.setDebug(this.debug);
+  }
 
-    this.uniqueVertiesSortedByUV = createUniqueSortedVertices(mesh.vertices);
+  createCloth() {
+    const group = this.matter.world.nextGroup(true);
+    const particleOptions = {
+      friction: 0.00001,
+      collisionFilter: { group: group },
+      render: { visible: false },
+    };
+    const constraintOptions = { stiffness: 0.06 };
+    const cloth = this.matter.add.softBody(
+      700 / 2 - (60 * 4) / 2,
+      400 / 2 - 25 * 4,
+      6,
+      3,
+      65,
+      35,
+      false,
+      8,
+      particleOptions,
+      constraintOptions
+    );
+    this.cloth = cloth;
+    // Prevent the cloth from collapsing
+    cloth.bodies[0].isStatic = true;
+    cloth.bodies[5].isStatic = true;
+  }
+
+  create() {
+    this.matter.world.setBounds();
+    this.matter.add.mouseSpring(); // Try to drag the cloth with the mouse
+
+    this.createMesh();
+    this.createCloth();
+
+    this.uniqueVertiesSortedByUV = createUniqueSortedVertices(
+      this.mesh.vertices
+    );
   }
 
   getClosestVertex(i) {
@@ -91,7 +98,7 @@ class Level extends Phaser.Scene {
   }
 
   updateMesh() {
-    if (!this.mesh) return;
+    if (!this.mesh || !this.cloth) return;
     this.mesh.ignoreDirtyCache = true; // need to set this flag and call preUpdate to update the mesh
     // map each body in the cloth to a vertex in the mesh and update the mesh position based on body position
     for (let i = 0; i < this.cloth.bodies.length; i++) {
