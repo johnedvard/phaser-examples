@@ -93,8 +93,8 @@ class Level extends Phaser.Scene {
     this.spineCurve.draw(this.graphics, 64);
   }
 }
-
-const game = new Phaser.Game({
+let game;
+game = new Phaser.Game({
   type: Phaser.WEBGL,
   width: 900,
   height: 400,
@@ -114,5 +114,38 @@ const game = new Phaser.Game({
     crossOrigin: "anonymous",
   },
 });
+
+export const initGame = () => {
+  if (game) return;
+  game = new Phaser.Game({
+    type: Phaser.WEBGL,
+    width: 900,
+    height: 400,
+    backgroundColor: "#191919",
+    scale: {
+      mode: Phaser.Scale.FIT,
+    },
+    physics: {
+      default: "matter",
+      matter: {
+        debug: false,
+        gravity: { x: 0, y: 2 },
+      },
+    },
+    loader: {
+      baseURL: "https://labs.phaser.io",
+      crossOrigin: "anonymous",
+    },
+  });
+  /** used if embedded directly on a page */
+  const gameParentEl = document.getElementById("phaser-example-parent");
+  const gameCanvasEl = document.getElementById("phaser-example");
+  if (gameCanvasEl) gameConfig.canvas = gameCanvasEl;
+  if (gameParentEl) gameConfig.parent = gameParentEl;
+  game = new Phaser.Game(gameConfig);
+  game.scene.add("Level", Level, true);
+  console.log("game loaded");
+};
+initGame();
 
 game.scene.add("Level", Level, true);
