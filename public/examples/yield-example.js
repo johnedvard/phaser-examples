@@ -63,7 +63,7 @@ function initHTML(gameParentEl) {
               }
             }
           },
-          0,
+          20,
           i
         );
       }
@@ -115,9 +115,8 @@ export const initGame = () => {
   
   
  initHTML(gameParentEl);
- document.addEventListener("touchstart", () => incrementCounter());
- document.addEventListener("mouseup",() => incrementCounter());
- game = {}; 
+ document.addEventListener("click", () => incrementCounter());
+ game = {};
 };
 
 initGame();
