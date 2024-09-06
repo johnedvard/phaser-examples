@@ -19,13 +19,9 @@ function initHTML(gameParentEl) {
     if(gameParentEl) gameParentEl.appendChild(wrapperEl);
     else document.body.appendChild(wrapperEl);
     setTimeout(() => {
-        document.getElementById("taskA").addEventListener("touchstart", () => start("a"));
-        document.getElementById("taskA").addEventListener("mouseup", start("a"));
-        document.getElementById("taskB").addEventListener("touchstart", () => start("b"));
-        document.getElementById("taskB").addEventListener("mouseup", start("b"));
-        document.getElementById("taskC").addEventListener("touchstart", () => start("c"));
-        document.getElementById("taskC").addEventListener("mouseup", start("c"));
-        
+        document.getElementById("taskA").addEventListener("click", () => start("a"));
+        document.getElementById("taskB").addEventListener("click", () => start("b"));
+        document.getElementById("taskC").addEventListener("click", () => start("c"));
     })
         
   }
@@ -119,9 +115,9 @@ export const initGame = () => {
   
   
  initHTML(gameParentEl);
- document.addEventListener("click", incrementCounter);
- game = {};
-  
+ document.addEventListener("touchstart", () => incrementCounter());
+ document.addEventListener("mouseup",() => incrementCounter());
+ game = {}; 
 };
 
 initGame();
