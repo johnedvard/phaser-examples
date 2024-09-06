@@ -2,9 +2,9 @@ let clickCounter = 0;
 const runs = 50000000;
 
 function initHTML(gameParentEl) {
-    const html = `<button onclick="start('a')">Start blocking task</button>
-      <button onclick="start('b')">Start second blocking task</button>
-      <button onclick="start('c')">Start non-blocking task</button>
+    const html = `<button id="taskA">Start blocking task</button>
+      <button id="taskB">Start second blocking task</button>
+      <button id="taskC">Start non-blocking task</button>
       <div>
         Counter:
         <div id="clickcounter">0</div>
@@ -13,30 +13,39 @@ function initHTML(gameParentEl) {
         Computed Res:
         <div id="conputedres">0</div>
       </div>`;
+
     const wrapperEl = document.createElement("div");
     wrapperEl.innerHTML = html;
     if(gameParentEl) gameParentEl.appendChild(wrapperEl);
     else document.body.appendChild(wrapperEl);
+    setTimeout(() => {
+        document.getElementById("taskA").addEventListener("click", () => start("a"));
+        document.getElementById("taskB").addEventListener("click", () => start("b"));
+        document.getElementById("taskC").addEventListener("click", () => start("c"));
+    })
+        
   }
   
   
   function incrementCounter() {
     clickCounter++;
-    clickcounter.innerHTML = clickCounter;
+    document.getElementById("clickcounter").innerHTML = clickCounter;
   }
 
   function setComputedRes(res) {
-    conputedres.innerHTML = res;
+    document.getElementById("conputedres").innerHTML = res;
   }
   
   
   
   function start(type) {
     console.log("start now: ", type);
-    setComputedRes(0);
-    if (type === "a") startBlockingTask();
-    else if (type === "b") startSecondBlockingTask();
-    else if (type === "c") startNonBlockingTask();
+    setComputedRes(0)
+    setTimeout(() => {
+        if (type === "a") startBlockingTask();
+        else if (type === "b") startSecondBlockingTask();
+        else if (type === "c") startNonBlockingTask();
+    });
   }
   
   function startNonBlockingTask() {
